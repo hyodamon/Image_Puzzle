@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="KR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="puzzle.css" />
+    <script src="https://kit.fontawesome.com/c5d2569384.js" crossorigin="anonymous"></script>
+    <link rel="icon" href="img\game.ico" />
+    <title>imagePuzzle</title>
+</head>
+
+<body>
+    <div id="container">
+        <div id="title">
+            <img src="img/game.png" onclick="gameStart()" />
+            <h1>이미지 퍼즐</h1>
+            <ul>
+                <li>위 <b>게임기 아이콘</b>을 누르면 실행됩니다.</li>
+                <li>
+                    게임이 시작되면 오른쪽 칸에 사진이 나오고
+                    <b>5초 뒤에 무작위로 섞입니다.</b>
+                </li>
+                <li>퍼즐을 맞춰보세요!</li>
+            </ul>
+        </div>
+        <div id="main">
+            <div id="puzzleBox">
+                <div id="puzzle1" class="puzzle" ondrop="drop(event)" ondragover="dragOver(event)"
+                    ondragstart="drag(event)"></div>
+                <div id="puzzle2" class="puzzle" ondrop="drop(event)" ondragover="dragOver(event)"
+                    ondragstart="drag(event)"></div>
+                <div id="puzzle3" class="puzzle" ondrop="drop(event)" ondragover="dragOver(event)"
+                    ondragstart="drag(event)"></div>
+                <div id="puzzle4" class="puzzle" ondrop="drop(event)" ondragover="dragOver(event)"
+                    ondragstart="drag(event)"></div>
+                <div id="puzzle5" class="puzzle" ondrop="drop(event)" ondragover="dragOver(event)"
+                    ondragstart="drag(event)"></div>
+                <div id="puzzle6" class="puzzle" ondrop="drop(event)" ondragover="dragOver(event)"
+                    ondragstart="drag(event)"></div>
+                <div id="puzzle7" class="puzzle" ondrop="drop(event)" ondragover="dragOver(event)"
+                    ondragstart="drag(event)"></div>
+                <div id="puzzle8" class="puzzle" ondrop="drop(event)" ondragover="dragOver(event)"
+                    ondragstart="drag(event)"></div>
+                <div id="puzzle9" class="puzzle" ondrop="drop(event)" ondragover="dragOver(event)"
+                    ondragstart="drag(event)"></div>
+                <div id="puzzle10" class="puzzle" ondrop="drop(event)" ondragover="dragOver(event)"
+                    ondragstart="drag(event)"></div>
+                <div id="puzzle11" class="puzzle" ondrop="drop(event)" ondragover="dragOver(event)"
+                    ondragstart="drag(event)"></div>
+                <div id="puzzle12" class="puzzle" ondrop="drop(event)" ondragover="dragOver(event)"
+                    ondragstart="drag(event)"></div>
+                <div id="puzzle13" class="puzzle" ondrop="drop(event)" ondragover="dragOver(event)"
+                    ondragstart="drag(event)"></div>
+                <div id="puzzle14" class="puzzle" ondrop="drop(event)" ondragover="dragOver(event)"
+                    ondragstart="drag(event)"></div>
+                <div id="puzzle15" class="puzzle" ondrop="drop(event)" ondragover="dragOver(event)"
+                    ondragstart="drag(event)"></div>
+                <div id="puzzle16" class="puzzle" ondrop="drop(event)" ondragover="dragOver(event)"
+                    ondragstart="drag(event)"></div>
+            </div>
+
+            <div id="pieceBox">
+                <div id="piece1" class="piece"></div>
+                <div id="piece2" class="piece"></div>
+                <div id="piece3" class="piece"></div>
+                <div id="piece4" class="piece"></div>
+                <div id="piece5" class="piece"></div>
+                <div id="piece6" class="piece"></div>
+                <div id="piece7" class="piece"></div>
+                <div id="piece8" class="piece"></div>
+                <div id="piece9" class="piece"></div>
+                <div id="piece10" class="piece"></div>
+                <div id="piece11" class="piece"></div>
+                <div id="piece12" class="piece"></div>
+                <div id="piece13" class="piece"></div>
+                <div id="piece14" class="piece"></div>
+                <div id="piece15" class="piece"></div>
+                <div id="piece16" class="piece"></div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    var startCnt = 0;
+    var successCnt = 0;
+    var score = 0;
+    var flag = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+    function gameStart() {
+        if (startCnt == 0) {
+            for (var i = 1; i <= 16; i++) {
+                document.getElementById("piece" + String(i)).style.backgroundImage = "url('img/" + String(i) + ".png')";
+            }
+            //setTimeout(shuffleEvent, 5000);
+            shuffleEvent();
+            startCnt++;
+        }
+    }
+
+    function shuffleEvent() {
+        for (var i = 1; i <= 16; i++) {
+            var piece = document.getElementById("piece" + String(i));
+            var pieceBox = piece.parentNode;
+            pieceBox.insertBefore(
+                piece,
+                pieceBox.childNodes[Math.floor(Math.random() * 16)]
+            );
+            piece.ondragstart = drag;
+            piece.ondrop = drop;
+            piece.ondragover = dragOver;
+        }
+    }
+
+    function drag(e) {
+        if (e.target.style.backgroundImage != "") {
+            e.dataTransfer.setData("background", e.target.style.backgroundImage); // dataTransfer : 쿠키, 다른 함수끼리 데이터를 공유
+            e.dataTransfer.setData("text", e.target.id);
+        }
+    }
+
+    function dragOver(e) {
+        e.preventDefault();
+    }
+
+    function drop(e) {
+        var data = e.dataTransfer.getData("background");
+        var dragTarget = document.getElementById(e.dataTransfer.getData("text"));
+        dragTarget.style.backgroundImage = "";
+        if (e.target.style.backgroundImage == "") {
+            e.target.style.backgroundImage = data;
+        }
+        else if (dragTarget.style.backgroundImage != null) { // 양 쪽에 backgroundImg가 다 있을 때 서로 바꿔주기
+            var tmp1 = e.target.style.backgroundImage;
+            var tmp2 = data;
+            e.target.style.backgroundImage = tmp2;
+            dragTarget.style.backgroundImage = tmp1;
+        }
+
+        var puzzleNum = e.target.id.replace(/[^0-9]/g, ''); // 넣은 PuzzleBox 번호
+        var pieceImg = data.replace(/[^0-9]/g, ''); // 넣은 piece 번호
+        successEvent();
+    }
+
+    function successEvent() {
+        var puzzle = document.getElementsByClassName("puzzle");
+        console.log(puzzle[0].style.backgroundImage=='');
+        for (var i =0; i<16;i++) {
+            if(puzzle[i].id.replace(/[^0-9]/g, '') == puzzle[i].style.backgroundImage.replace(/[^0-9]/g, '')) {
+                flag[i] = 1;
+            }
+            else {
+                flag[i] = 0;
+            }
+        }
+        console.log(flag)
+        if (flag.includes(0) == false) {
+            alert("Success!");
+        }
+    }
+
+</script>
+
+</html>

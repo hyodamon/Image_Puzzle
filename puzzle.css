@@ -1,0 +1,62 @@
+@font-face {
+  font-family: MalgunGothic;
+  src: url("MalgunGothic.eot");
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  color: #37352f;
+  font-family: "Malgun Gothic";
+}
+
+#container {
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  transform: translate(-50%, -50%);
+}
+#main {
+  display: flex;
+  margin-top: 30px;
+}
+#title ul {
+  margin-top: -10px;
+}
+#title ul li {
+  font-size: 20px;
+}
+#title img {
+  margin-left: 16px;
+  cursor: pointer;
+}
+#title h1 {
+  font-size: 50px;
+  letter-spacing: -2px;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+#puzzleBox,
+#pieceBox {
+  background-color: #ffffff;
+  margin: 5px;
+  width: 768px;
+  height: 432px;
+  display: grid;
+  grid-template-rows: 108px 108px 108px 108px;
+  grid-template-columns: 192px 192px 192px 192px;
+}
+
+.puzzle,
+.piece {
+  background-color: #33312c;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.piece:hover {
+  border: 2px solid red;
+}
